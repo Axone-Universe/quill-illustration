@@ -1,0 +1,21 @@
+{
+  "name": "quill-illustration",
+  "version": "1.0.0",
+  "description": "This module is a modification of the quill-comment module described as \"Comment plugin for Quill Editor. This plug-in is used to mark which part of a document is commented by who at what time in quill delta. It is made UX-independant by exposing callbacks to hook in\". This specific implementation allows you to add an illustration which is essentially a comment with an image attached to it.",
+  "main": "dist/quill.illustration.js",
+  "types": "dist/quill.illustration.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "Axone Network",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/quill": "^2.0.10",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "parchment": "^2.0.1",
+    "quill": "^1.3.7"
+  }
+}
