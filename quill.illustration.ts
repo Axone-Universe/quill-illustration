@@ -58,19 +58,18 @@ export interface IllustrationObject {
 }
 
 
+let range: RangeStatic | null;
 
 export class QuillIllustration {
 
     quill: Quill;
     options: QuillIllustrationOptions;
-    range: RangeStatic | null;
     isEnabled: boolean;
 
 
     constructor(ql: Quill, opt: QuillIllustrationOptions) {
         this.quill = ql;
         this.options = opt;
-        this.range = new RangeStatic();
 
         this.isEnabled = false;
 
@@ -121,10 +120,10 @@ export class QuillIllustration {
             const addIllustrationBtn = document.querySelector('button.ql-illustrations-add');
             addIllustrationBtn!.addEventListener('click', () => {
 
-                this.range = this.quill.getSelection();
+                range = this.quill.getSelection();
 
                 // nothing is selected
-                if (!this.range || this.range.length ==0) {
+                if (!range || range.length ==0) {
                     illustrationAddClick(null);
                     return;
                 }
@@ -160,19 +159,19 @@ export class QuillIllustration {
         }
 
         // selection could be removed when this callback gets called, so store it first
-        if (this.range) this.quill.formatText(this.range.index, this.range.length, 'illustrationAuthor', this.options.illustrationAuthorId, 'user');
+        if (range) this.quill.formatText(range.index, range.length, 'illustrationAuthor', this.options.illustrationAuthorId, 'user');
 
-        if (this.range && this.options.illustrationAddOn) {
-            this.quill.formatText(this.range.index, this.range.length, 'illustrationAddOn', this.options.illustrationAddOn, 'user');
+        if (range && this.options.illustrationAddOn) {
+            this.quill.formatText(range.index, range.length, 'illustrationAddOn', this.options.illustrationAddOn, 'user');
         }
 
         this.options.illustrationTimestamp().then((utcSeconds) => {
             // UNIX epoch like 1234567890
-            if (this.range) {
-                this.quill.formatText(this.range.index, this.range.length, 'illustrationTimestamp', utcSeconds, 'user');
-                this.quill.formatText(this.range.index, this.range.length, 'illustrationId', 'ql-illustration-' + this.options.illustrationAuthorId + '-' + utcSeconds, 'user');
+            if (range) {
+                this.quill.formatText(range.index, range.length, 'illustrationTimestamp', utcSeconds, 'user');
+                this.quill.formatText(range.index, range.length, 'illustrationId', 'ql-illustration-' + this.options.illustrationAuthorId + '-' + utcSeconds, 'user');
 
-                this.quill.formatText(this.range.index, this.range.length, 'illustration', JSON.stringify(illustration), 'user');
+                this.quill.formatText(range.index, range.length, 'illustration', JSON.stringify(illustration), 'user');
             }
         });
     }
